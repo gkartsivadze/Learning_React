@@ -1,0 +1,50 @@
+body {
+  min-height: 100vh;
+  color: #FFFFFF;
+}
+
+.card {
+  width: 550px;
+  height: 550px;
+  background-color: #282D35;
+  display: flex;
+  flex-direction: column;
+}
+nav {
+  background-color: #21222A;
+  display: flex;
+  align-items: center;
+  padding-inline: 26px;
+  padding-block: 31px;
+}
+
+nav img {
+  width: 1.5rem;
+  height: 1.5rem;
+  object-fit: cover;
+}
+
+nav > h2 {
+  color: #61DAFB;
+}
+
+nav > h4 {
+  color: #DEEBF8;
+  margin-left: auto;
+}
+
+main {
+  flex-grow: 1;
+  position: relative;
+  padding-inline: 26px;
+  background: url(./assets/react2.svg) no-repeat center right;
+}
+
+main ul {
+  line-height: 40px;
+}
+
+::marker {
+  color: #61DAFB;
+  font-size: 1.2rem
+}
