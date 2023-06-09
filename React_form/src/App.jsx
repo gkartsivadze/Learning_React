@@ -25,8 +25,13 @@ function App() {
         count+=1;
       }
     });
-    console.log(data);
-    console.log(count > 0 ? "Fill all blanks" : "Logged in")
+    if(!/.+@.+\..+/.test(data.email)) {
+      console.log("Type correct email")
+    } else if(count > 0) {
+      console.log("Fill all blanks")
+    } else {
+      console.log("Successfully logged in : ",data)
+    }
   }
   return (
     <>
