@@ -1,12 +1,14 @@
 import React from "react";
-import logo from "../assets/react.svg";
 
 export default function Navbar() {
     return (
         <nav>
-            <img src={logo} alt="React logo" />
-            <h2>ReactFacts</h2>
-            <h4>React Course - Project 1</h4>
+            <input id="nav_btn" type="button" value="X" />
+            <ul className="menu">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
         </nav>
     );
 }
