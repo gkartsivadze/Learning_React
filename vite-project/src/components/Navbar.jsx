@@ -1,14 +1,18 @@
-import React from "react";
+import React from "react"
 
-export default function Navbar() {
+export default function Navbar(props) {
     return (
-        <nav>
-            <input id="nav_btn" type="button" value="X" />
-            <ul className="menu">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
+         <nav className={props.darkMode ? "dark": ""}>
+            <img className="nav--logo_icon" src="./public/images/react-icon-small.png"/>
+            <h3 className="nav--logo_text">ReactFacts</h3>
+            
+            <div className="toggler" >
+                <p className="toggler--light">Light</p>
+                <div className="toggler--slider"onClick={props.toggleDarkMode}>
+                    <div className="toggler--slider--circle"></div>
+                </div>
+                <p className="toggler--dark">Dark</p>
+            </div>
         </nav>
-    );
+    )
 }
