@@ -1,5 +1,4 @@
 import React, { useEffect } from "react"
-import memesData from "../../public/memesData"
 
 export default function Meme() {
     
@@ -17,7 +16,6 @@ export default function Meme() {
     }, [])
 
     console.log(allMemes)
-    const [allMemeImages, setAllMemeImages] = React.useState(memesData)
     const [memeText, setMemeText] = React.useState({
         top_txt: '',
         bottom_txt: ''
