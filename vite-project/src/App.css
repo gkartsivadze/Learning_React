@@ -1,50 +1,57 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   min-height: 100vh;
   color: #FFFFFF;
 }
 
-.card {
-  width: 550px;
-  height: 550px;
-  background-color: #282D35;
-  display: flex;
-  flex-direction: column;
+a {
+  color: currentColor;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  padding: 0.5rem 1rem;
 }
-nav {
-  background-color: #21222A;
-  display: flex;
-  align-items: center;
-  padding-inline: 26px;
-  padding-block: 31px;
+a:hover {
+  background-color: rgba(128, 128, 128, 0.2);
 }
 
-nav img {
-  width: 1.5rem;
-  height: 1.5rem;
-  object-fit: cover;
+#nav_btn {
+  position: fixed;
+  top: 1rem; right: 1rem;
+  border-radius: 50%;
+  font-size: 2rem;
+  padding: 0.5rem 1rem;
+  background-color: transparent;
+  border: 1px solid white;
+  color: white;
+  cursor: pointer;
+  z-index: 5;
 }
 
-nav > h2 {
-  color: #61DAFB;
+#nav_btn:hover {
+  box-shadow: 0 0 5px white;
 }
 
-nav > h4 {
-  color: #DEEBF8;
-  margin-left: auto;
+.menu {
+  position: fixed;
+  top: 0; right: 0;
+  height: 100vh;
+  width: 50%;
+  padding-block: 5rem;
+  list-style: none;
+  backdrop-filter: blur(1rem);
 }
 
-main {
-  flex-grow: 1;
-  position: relative;
-  padding-inline: 26px;
-  background: url(./assets/react2.svg) no-repeat center right;
+.menu a {
+  font-size: 1.25rem;
+  transition: 0.2s;
 }
 
-main ul {
-  line-height: 40px;
-}
-
-::marker {
-  color: #61DAFB;
-  font-size: 1.2rem
+.menu a:hover {
+  transform: scaleX(1.05);
 }
