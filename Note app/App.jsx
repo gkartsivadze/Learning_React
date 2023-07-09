@@ -3,16 +3,12 @@ import Sidebar from "./components/Sidebar"
 import Editor from "./components/Editor"
 import Split from "react-split"
 import { nanoid } from "nanoid"
-import { onSnapshot } from "firebase/firestore"
-import { notesCollection } from "./firebase";
+import { addDoc, deleteDoc, doc, onSnapshot, setDoc } from "firebase/firestore"
+import { notesCollection, db} from "./firebase";
 
-function App() {
-    const [notes, setNotes] = React.useState(
-        () => JSON.parse(localStorage.getItem("notes")) || []
-    )
-    const [currentNoteId, setCurrentNoteId] = React.useState(
-        (notes[0]?.id) || ""
-    )
+export default function App() {
+    const [notes, setNotes] = React.useState([])
+    const [currentNoteId, setCurrentNoteId] = React.useState("")
     
     const currentNote = 
         notes.find(note => note.id === currentNoteId) 
@@ -20,39 +16,41 @@ function App() {
 
     React.useEffect(() => {
         const unsibscribe = onSnapshot(notesCollection, function(snapshot) {
-            console.log("Things are changing")
+            const notesArr = snapshot.docs.map(doc => ({
+                ...doc.data(),
+                id: doc.id
+            }))
+            setNotes(notesArr)
+            const sorted = notesArr.sort((a, b) => b.updatedAt - a.updatedAt);
         })
         return unsibscribe;
     }, [notes])
 
-    function createNewNote() {
+    React.useEffect(() => {
+        if(!currentNoteId) {
+            setCurrentNoteId(notes[0]?.id)
+        }
+    })
+
+    async function createNewNote() {
         const newNote = {
             id: nanoid(),
-            body: "# Type your markdown note's title here"
+            body: "# Type your markdown note's title here",
+            createdAt: Date.now(),
+            updatedAt: Date.now()
         }
-        setNotes(prevNotes => [newNote, ...prevNotes])
+        const newNoteRef = await addDoc(notesCollection, newNote)
         setCurrentNoteId(newNote.id)
     }
 
-    function updateNote(text) {
-        setNotes(oldNotes => {
-            const newArray = []
-            for (let i = 0; i < oldNotes.length; i++) {
-                const oldNote = oldNotes[i]
-                if (oldNote.id === currentNoteId) {
-                    // Put the most recently-modified note at the top
-                    newArray.unshift({ ...oldNote, body: text })
-                } else {
-                    newArray.push(oldNote)
-                }
-            }
-            return newArray
-        })
+    async function updateNote(text) {
+        const docRef = doc(db, "Notes App", currentNoteId)
+        await setDoc(docRef, { body: text, updatedAt: Date.now() }, { merge: true })
     }
 
-    function deleteNote(event, noteId) {
-        event.stopPropagation()
-        setNotes(oldNotes => oldNotes.filter(note => note.id !== noteId))
+    async function deleteNote(event, noteId) {
+        const docRef = doc(db, "Notes App", noteId);
+        await deleteDoc(docRef);
     }
 
     return (
@@ -96,6 +94,3 @@ function App() {
         </main>
     )
 }
-
-
-export default App;

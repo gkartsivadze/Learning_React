@@ -1,6 +1,5 @@
 import React from "react"
-import R from "react-mde"
-const ReactMde = R.default
+import ReactMde from "react-mde"
 import Showdown from "showdown"
 
 export default function Editor({ currentNote, updateNote }) {
@@ -11,8 +10,7 @@ export default function Editor({ currentNote, updateNote }) {
         simplifiedAutoLink: true,
         strikethrough: true,
         tasklists: true,
-    })  
-
+    })
     return (
         <section className="pane editor">
             <ReactMde
