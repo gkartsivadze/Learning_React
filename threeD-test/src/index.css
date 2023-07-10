@@ -24,15 +24,38 @@
   display: flex;
   height: 20rem;
   transform-style: preserve-3d;
-  transform: perspective(800px) translateY(-50%);
 }
-#carousel * {
+#carousel > * {
   position: absolute;
-  background-color: grey;
   top: 50%;
+  transform-style: preserve-3d;
+}
+#carousel > *:after {
+  content: "";
+  position: absolute;
+  inset: 2rem;
+  filter: blur(3rem);
+  background: rgb(255, 255, 255);
+  transform: translateZ(-0.1rem);
+}
+#carousel > *::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(5rem at 15% 70%, blue, transparent), radial-gradient(orange, transparent), cyan;
+  border-radius: 1rem;
+}
+#carousel > * img {
+  width: 20rem;
+  height: 8rem;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border: 1px solid black;
+  border-radius: 1rem;
+  transform: translateZ(0.1rem);
 }
 
-#root {
+#carousel_container {
   display: grid;
   place-items: center;
   height: 400vh;

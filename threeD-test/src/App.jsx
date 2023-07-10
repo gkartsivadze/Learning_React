@@ -4,16 +4,22 @@ import './App.css'
 function App() {
   useEffect(() => {
     function handleScroll() {
-      const h1s = document.querySelectorAll("#carousel h1");
+      const h1s = document.querySelectorAll("#carousel .project_container");
       h1s.forEach((elem, ind) => {
         let newRotation = ind / h1s.length * 360 - parseInt(document.documentElement.scrollTop) / document.documentElement.scrollHeight * 360;
         elem.animate({
-          transform: `translateX(-50%) rotateY(${newRotation}deg) translateZ(300px)`
+          transform: `translateX(-50%) rotateY(${newRotation}deg) translateZ(30rem)`
         }, {
           easing: "ease",
           duration: 100,
           fill: "forwards"
         })
+      })
+      document.querySelector("#carousel").animate({
+        transform: `perspective(1000px) translateY(-50%) rotateZ(${parseInt(document.documentElement.scrollTop) / document.documentElement.scrollHeight * 10}deg)`
+      }, {
+        duration: 100,
+        fill: "forwards"
       })
     }
     document.addEventListener("scroll", handleScroll)
@@ -21,14 +27,28 @@ function App() {
   }, [])
   return (
     <>
+    <section id="carousel_container">
       <div id="carousel">
-          <h1>HB0</h1>
-          <h1>HB1</h1>
-          <h1>HB2</h1>
-          <h1>HB3</h1>
-          <h1>HB4</h1>
-          <h1>HB5</h1>
+          <div className='project_container'>
+            <img src="./artopia.webp" alt="" />
+          </div>
+          <div className='project_container'>
+            <img src="./ecommerce.webp" alt="" />
+          </div>
+          <div className='project_container'>
+            <img src="./financial.webp" alt="" />
+          </div>
+          <div className='project_container'>
+            <img src="./form.webp" alt="" />
+          </div>
+          <div className='project_container'>
+            <img src="./receptionera.webp" alt="" />
+          </div>
+          <div className='project_container'>
+            <img src="./shortener.webp" alt="" />
+          </div>
       </div>
+    </section>
     </>
   )
 }
