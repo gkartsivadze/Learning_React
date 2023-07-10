@@ -1,22 +1,31 @@
-import { useEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import './App.css'
 
 function App() {
-  useEffect(() => {
+  useLayoutEffect(() => {
+    handleScroll();
     function handleScroll() {
+      let scrollProgress = parseInt(document.documentElement.scrollTop) / (document.documentElement.scrollHeight - window.innerHeight);
       const h1s = document.querySelectorAll("#carousel .project_container");
       h1s.forEach((elem, ind) => {
-        let newRotation = ind / h1s.length * 360 - parseInt(document.documentElement.scrollTop) / document.documentElement.scrollHeight * 360;
+        let newRotation = ind / h1s.length * 360 - scrollProgress * 360;
         elem.animate({
-          transform: `translateX(-50%) rotateY(${newRotation}deg) translateZ(30rem)`
+          transform: `translateX(-25%) rotateY(${newRotation}deg) translateZ(35rem)`
         }, {
-          easing: "ease",
+          easing: "ease-out",
           duration: 100,
           fill: "forwards"
         })
       })
       document.querySelector("#carousel").animate({
-        transform: `perspective(1000px) translateY(-50%) rotateZ(${parseInt(document.documentElement.scrollTop) / document.documentElement.scrollHeight * 10}deg)`
+        transform: `perspective(1500px) translateY(-50%) rotateZ(${scrollProgress * 10}deg)`
+      }, {
+        duration: 100,
+        fill: "forwards"
+      })
+
+      document.querySelector(".light_through").animate({
+        transform: `translateY(${5 - scrollProgress * 20}rem)`
       }, {
         duration: 100,
         fill: "forwards"
@@ -27,6 +36,14 @@ function App() {
   }, [])
   return (
     <>
+    <nav>
+      <h1 id="logo">GIORGI KARTSIVADZE</h1>
+      <div className='navigation'>
+        <a href="#">About</a>
+        <a href="#">Projects</a>
+        <a href="#">Contact</a>
+      </div>
+    </nav>
     <section id="carousel_container">
       <div id="carousel">
           <div className='project_container'>
@@ -47,6 +64,12 @@ function App() {
           <div className='project_container'>
             <img src="./shortener.webp" alt="" />
           </div>
+          <div className='project_container'>
+            <img src="./tictac.webp" alt="" />
+          </div>
+          <span className='light_through'>
+
+          </span>
       </div>
     </section>
     </>
