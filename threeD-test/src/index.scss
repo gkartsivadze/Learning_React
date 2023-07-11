@@ -13,7 +13,7 @@
     font-weight: 400;
 
     color-scheme: light dark;
-    color: rgba(255, 255, 255, 0.87);
+    color: var(--green);
     background: radial-gradient(var(--dark-green), transparent),
                       var(--dark-blue);
 
@@ -48,40 +48,66 @@ nav {
     left: 0; right: 0;
     height: 3rem;
     padding-inline: 5rem;
-
+    
     background: var(--green);
     color: var(--dark-blue);
     
     display: flex;
     justify-content: space-between;
     align-items: center;
-
+    
     z-index: 10;
     #logo {
         color: var(--dark-blue);
+        user-select: none;
     }
 }
 
-#carousel {
-    position: fixed;
-    top: 50%;
-    display: flex;
-    height: 20rem;
-    transform-style: preserve-3d;
+#welcome_section {
+    height: 100vh;
+    padding: 5rem;
+    h1 {
+        padding: 0.5rem 2rem;
+        color: var(--green);
+        border: 1px solid var(--green);
 
+        text-align: center;
+    }
+    p {
+        margin-top: 3rem;
+        width: fit-content;
+        padding: 0.5rem 2rem;
+        border: 1px solid var(--dark-green)
+    }
+}
+
+#carousel_container {
+    display: flex;
+    justify-content: center;
+    height: 400vh;
+
+    position: relative;
+}
+
+#carousel {
+    display: flex;
+    height: 100vh;
+    transform-style: preserve-3d;
+    transform: translateY(var(--top, 0vh)) perspective(1200px) rotateZ(var(--carouselZ,0deg));
+    
     &>.project_container {
         position: absolute;
         top: 50%;
         transform-style: preserve-3d;
         height: 10rem;
-        
+        transform: translateX(-25%) translateY(-50%) rotateY(var(--cards-rotation, 0deg)) translateZ(35rem);
         &:after {
             content: "";
             position: absolute;
-            inset: 2rem;
+            inset: 2rem 0;
             filter: blur(3rem);
             background: var(--green);
-            transform: translateZ(-0.1rem);
+            transform: translateZ(-0.1rem) rotateY(calc(var(--cards-rotation, 0deg) * -1 / 360));
         }
 
         &::before {
@@ -113,8 +139,10 @@ nav {
         width: 10rem;
         height: 10rem;
         border-radius: 50%;
-        background-image: url(./earth.svg);
+        background: url(./earth.svg) var(--green);
         background-size: cover;
+
+        transform: translateY(var(--light-transform, 0px));
 
         animation: glowing 5s ease-out infinite;
     }
@@ -130,11 +158,5 @@ nav {
     70% {box-shadow: 0 0 1rem #00ff40 }
     80% {box-shadow: 0 0 3rem #04D939 }
     90% {box-shadow: 0 0 1rem #64f589 }
-    100% {box-shadow: 0 0 1rem #04D939 }
-}
-
-#carousel_container {
-    display: grid;
-    place-items: center;
-    height: 400vh;
+    100% {box-shadow: 0 0 3rem #04D939 }
 }

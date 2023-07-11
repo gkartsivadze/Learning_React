@@ -1,35 +1,45 @@
-import { useLayoutEffect } from 'react';
+import { useRef, useLayoutEffect } from 'react';
+import { gsap } from "gsap-trial";
+import ScrollTrigger from "gsap-trial/ScrollTrigger";
+import ScrollSmoother from "gsap-trial/ScrollSmoother";
 import './App.css'
 
 function App() {
+
+  const el = useRef();
+  gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
+
+  useLayoutEffect(() => {
+    let smoother = ScrollSmoother.create({
+      content: el.current,
+      smooth: 1, // how long (in seconds) it takes to "catch up" to the native scroll position
+      effects: true // looks for data-speed and data-lag attributes on elements
+    });
+    return () => {
+      smoother.kill();
+    };
+  }, []);
+
+
   useLayoutEffect(() => {
     handleScroll();
     function handleScroll() {
-      let scrollProgress = parseInt(document.documentElement.scrollTop) / (document.documentElement.scrollHeight - window.innerHeight);
-      const h1s = document.querySelectorAll("#carousel .project_container");
-      h1s.forEach((elem, ind) => {
-        let newRotation = ind / h1s.length * 360 - scrollProgress * 360;
-        elem.animate({
-          transform: `translateX(-25%) rotateY(${newRotation}deg) translateZ(35rem)`
-        }, {
-          easing: "ease-out",
-          duration: 100,
-          fill: "forwards"
-        })
-      })
-      document.querySelector("#carousel").animate({
-        transform: `perspective(1500px) translateY(-50%) rotateZ(${scrollProgress * 10}deg)`
-      }, {
-        duration: 100,
-        fill: "forwards"
+      let scrollTop = document.documentElement.scrollTop
+      let scrollProgress = parseInt(scrollTop - window.innerHeight) / (document.documentElement.scrollHeight - 2 * window.innerHeight);
+
+
+      gsap.to("#carousel", {'--carouselZ': scrollProgress * 10 + "deg",
+                            '--top': scrollTop > window.innerHeight ? scrollProgress * 300 + "vh" : "0vh"
+                          })
+
+
+      const cards = gsap.utils.toArray("#carousel .project_container");
+      cards.forEach((elem, ind) => {
+        let newRotation = ind / cards.length * 360 - scrollProgress * 360;
+        gsap.to(elem, {'--cards-rotation': `${newRotation}deg`, duration: 0.25})
       })
 
-      document.querySelector(".light_through").animate({
-        transform: `translateY(${5 - scrollProgress * 20}rem)`
-      }, {
-        duration: 100,
-        fill: "forwards"
-      })
+      gsap.to(".light_through", {'--light-transform': 200 - scrollProgress * 100 + "%",duration: 1})
     }
     document.addEventListener("scroll", handleScroll)
     return () => document.removeEventListener("mousemove", handleScroll)
@@ -44,6 +54,13 @@ function App() {
         <a href="#">Contact</a>
       </div>
     </nav>
+    <main ref={el}>
+    <section id='welcome_section'>
+      <h1>WELCOME</h1>
+      <p>Pasionate front-end developer, newbie in profession,
+        but master in progression</p>
+
+    </section>
     <section id="carousel_container">
       <div id="carousel">
           <div className='project_container'>
@@ -72,6 +89,7 @@ function App() {
           </span>
       </div>
     </section>
+    </main>
     </>
   )
 }
