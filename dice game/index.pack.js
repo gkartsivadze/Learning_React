@@ -524,15 +524,15 @@ var _reactConfetti2 = _interopRequireDefault(_reactConfetti);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function App() {
-    var _useState = (0, _react.useState)(allNewDice),
+    var _useState = (0, _react.useState)(allNewDice()),
         _useState2 = _slicedToArray(_useState, 2),
         dice = _useState2[0],
         setDice = _useState2[1];
 
     var _useState3 = (0, _react.useState)(false),
         _useState4 = _slicedToArray(_useState3, 2),
-        tenz = _useState4[0],
-        setTenz = _useState4[1];
+        tenzies = _useState4[0],
+        setTenzies = _useState4[1];
 
     (0, _react.useEffect)(function () {
         var allHeld = dice.every(function (die) {
@@ -543,12 +543,12 @@ function App() {
             return die.value === value;
         });
         if (allHeld && allSame) {
-            setTenz(false);
+            setTenzies(false);
             console.log("you won");
         }
     }, [dice]);
 
-    function generateDie() {
+    function generateNewDie() {
         return {
             value: Math.ceil(Math.random() * 6),
             isHeld: false,
@@ -557,21 +557,23 @@ function App() {
     }
 
     function allNewDice() {
-        setTenz(function () {
-            return false;
-        });
-        var newDice = [];
-        for (var i = 0; i < 10; i++) {
-            newDice.push(generateDie());
+        if (!tenzies) {
+            setDice(function (oldDice) {
+                return oldDice.map(function (die) {
+                    return die.isHeld ? die : generateNewDie();
+                });
+            });
+        } else {
+            setTenzies(false);
+            setDice(allNewDice);
         }
-        return newDice;
     }
 
     function rollDice() {
-        if (tenz) return setDice(allNewDice);
+        if (tenzies) return setDice(allNewDice);
         setDice(function (prev) {
             return prev.map(function (die) {
-                return die.isHeld === true ? die : generateDie();
+                return die.isHeld === true ? die : generateNewDie();
             });
         });
     }
@@ -597,7 +599,7 @@ function App() {
             null,
             "Roll until all dice are the same. Click each die to freeze it at its current value between rolls."
         ),
-        tenz && _react2.default.createElement(_reactConfetti2.default, null),
+        tenzies && _react2.default.createElement(_reactConfetti2.default, null),
         _react2.default.createElement(
             "div",
             { className: "dice-container" },
@@ -610,7 +612,7 @@ function App() {
         _react2.default.createElement(
             "button",
             { className: "roll-dice", onClick: rollDice },
-            tenz ? "New game" : "Roll"
+            tenzies ? "New game" : "Roll"
         )
     );
 }

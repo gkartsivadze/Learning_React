@@ -2,16 +2,18 @@
   "name": "project",
   "dependencies": {
     "nanoid": "^4.0.2",
-    "react": "16.13.1",
+    "react": "^18.2.0",
     "react-confetti": "^6.0.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "babel-core": "^6.0",
-    "babel-loader": "^7.0",
+    "@babel/preset-env": "^7.22.9",
+    "babel-core": "*",
+    "babel-loader": "*",
     "babel-preset-env": "*",
-    "babel-preset-react": "*",
-    "webpack": "^2.0"
+    "babel-preset-react": "^6.24.1",
+    "webpack": "^5.88.1",
+    "webpack-cli": "^5.1.4"
   },
   "scripts": {
     "build": "webpack",
