@@ -1,8 +1,10 @@
 import React from "react";
 
-function Die({ dies }) {
+function Die({ value, isHeld, holdDice }) {
     return (
-        dies.map(elem => <div key={elem}>{elem}</div>)
+        <div onClick={holdDice} style={isHeld ? {backgroundColor: "#59E391"} : {}}>
+            {value}
+        </div>
     )
 }
 
